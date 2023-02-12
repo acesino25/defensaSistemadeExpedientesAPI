@@ -4,6 +4,7 @@ BACKEND: This is a private repo of the Provintial Division of Costumer Defense's
 This is a private repo of the Provintial Division of Costumer Defense's system
 
 Este repo es del BACKEND
+Repo del front: https://github.com/acesino25/defensaSistemadeExpedientes/
 
 Esta aplicación ha sido construida para la Dirección Provincial de Defensa del Consumidor. Está construida con PYTHON (fastAPI) y Javascript (react js) Respaldada en MySQL para guardar los datos.
 
