@@ -1,5 +1,5 @@
 from sqlalchemy import Table, Column
-from sqlalchemy.sql.sqltypes import Integer, String, DateTime, Boolean
+from sqlalchemy.sql.sqltypes import Integer, String, DateTime, Boolean, Text
 from config.db import meta, engine
 
 # Creamos una tabla dentro de la base de datos
@@ -25,11 +25,12 @@ expedientes = Table('expedientes', meta,
     Column("idEspecial", String(255)),
     Column("nombres", String(255)),
     Column("apellido", String(255)),
-    Column("direccion", String(255)),
+    Column("direccion", Text(3000)),
     Column("localidad", String(255)),
     Column("telefono", String(255)),
     Column("dni", String(255)),
     Column("fechaAudiencia", DateTime),
+    Column("categoria", String(255)),
     Column("detalles", String(255)),
     Column("empresas", String(1028)),
     Column("hipervulnerable", Boolean),
@@ -59,6 +60,18 @@ fechas = Table('fechas', meta,
     Column("fechaHora", DateTime),
     Column("disponible", Boolean)
 )
+
+contador = Table('contador', meta,
+    Column("id", Integer, primary_key=True),
+    Column("contador", String(255)),
+    Column("fechaHora", DateTime)
+)
+
+categorias = Table('categoria', meta,
+    Column("id", Integer, primary_key=True),
+    Column("nombre", String(255))                  
+)
+
 
 # 'meta' almacena o linkea la creación de una tabla
 # finalmente la ejecutamos con el método "create_all"

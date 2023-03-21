@@ -4,9 +4,9 @@ from pydantic import BaseModel
 class User(BaseModel):
     id: Optional[str]
     name: str
-    mail: str
+    email: str
     password: str
-    passwordConfirm: str
+    passwordConfirm: Optional[str]
     pregunta: Optional[str]
     puntos: str
     permiso: str

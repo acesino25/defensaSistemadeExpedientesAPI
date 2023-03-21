@@ -4,6 +4,8 @@ from routes.usuarios import user
 
 from starlette.middleware.cors import CORSMiddleware
 
+from data.data import server
+
 app = FastAPI()
 
 @app.middleware("http")
@@ -18,11 +20,19 @@ async def root():
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5173"],
+    allow_origins=['*'],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+'''app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[server],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)'''
 
 app.include_router(expediente)
 app.include_router(user)

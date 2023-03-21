@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from datetime import datetime
 
 class Datos(BaseModel):
+    id: Optional[str]
     idEspecial: Optional[str]
     nombres: str
     apellido: str
@@ -11,6 +12,7 @@ class Datos(BaseModel):
     telefono: str
     dni: str
     fechaAudiencia: datetime
+    categoria: Optional[str]
     detalles: Optional[str]
     empresas: str
     hipervulnerable: bool
@@ -48,5 +50,9 @@ class File(BaseModel):
     temporizador: Temporizador
     archivado: Optional[bool]
 
-
+# Lo que recibo del POST
+class TipoDeDenuncia(BaseModel):
+    id: Optional[str]
+    nombre: str
+    creador: str
 
