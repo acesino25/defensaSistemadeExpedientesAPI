@@ -441,6 +441,75 @@ def get_expedientes_upto(limit: str = 10):
 
     return  arrayRespuesta
 
+# OBTENER ACTUACIONES
+
+@expediente.get("/expedientesActuacion/{limit}", tags=['actuacion'])
+def get_expedientes_actuacion(limit: str = 10):
+
+    arrayRespuesta = []
+    result = conn.execute(expedientes.select().where(expedientes.c.actuacion == True).order_by(expedientes.c.id.desc()).limit(limit)).fetchall()
+
+
+
+    for element in result:
+
+        resultEstados = conn.execute(estados.select().where(estados.c.idEspecial == element["idEspecial"]))
+        resultTemporizador = conn.execute(temporizador.select().where(temporizador.c.idEspecial == element["idEspecial"]))
+
+        arrayEstados = []
+        objTemporizador = {}
+
+        if(resultEstados.rowcount > 0):
+            for elementEstados in resultEstados:
+                new_object_estado = {
+                    "id":   elementEstados["id"],
+                    "idEspecial":   elementEstados["idEspecial"],
+                    "estado": elementEstados["estado"],
+                    "descripcion": elementEstados["descripcion"]
+                }
+                arrayEstados.append(new_object_estado)
+
+
+        if(resultTemporizador.rowcount > 0):
+           objTemporizador["titulo"] = resultTemporizador["titulo"]
+           objTemporizador["fechaInicio"] = resultTemporizador["fechaInicio"]
+           objTemporizador["fechaFin"] = resultTemporizador["fechaFin"]
+        else:
+            objTemporizador["titulo"] = None
+            objTemporizador["fechaInicio"] = None
+            objTemporizador["fechaFin"] = None
+                
+
+        expediente = {
+            "id": element["id"],
+            "idEspecial": element["idEspecial"],
+            "datos": {
+                "nombres": element["nombres"],
+                "apellido": element["apellido"],
+                "direccion": element["direccion"],
+                "localidad": element["localidad"],
+                "telefono": element["telefono"],
+                "dni": element["dni"],
+                "fechaAudiencia": element["fechaAudiencia"],
+                "categoria": element["categoria"],
+                "detalles": element["detalles"],
+                "empresas": element["empresas"],
+                "hipervulnerable": element["hipervulnerable"],
+                "actuacion": element["actuacion"],
+                "creador": element["creador"]
+            },
+            "estados": arrayEstados,
+            "temporizador":
+                objTemporizador
+            ,
+            "archivado": element["archivado"]
+        }
+        
+        arrayRespuesta.append(expediente)
+    
+
+    return  arrayRespuesta
+
 @expediente.get("/buscar/{DNIIdIdespecial}, {userId}")
 def buscar_expediente(DNIIdIdespecial:str, userId: int):
 
