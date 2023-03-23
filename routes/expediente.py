@@ -516,7 +516,7 @@ def buscar_expediente(DNIIdIdespecial:str, userId: int):
     decoded = urllib.parse.unquote(DNIIdIdespecial)
     result = conn.execute(
         expedientes.select().where(or_(
-            expedientes.c.idEspecial==decoded,
+            expedientes.c.idEspecial.ilike(f'%{decoded}%'),
             expedientes.c.id == decoded,
             expedientes.c.dni == decoded,
             expedientes.c.apellido.ilike(f'%{decoded}%'),
