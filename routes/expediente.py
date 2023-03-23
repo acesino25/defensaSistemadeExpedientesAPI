@@ -518,7 +518,10 @@ def buscar_expediente(DNIIdIdespecial:str, userId: int):
         expedientes.select().where(or_(
             expedientes.c.idEspecial==decoded,
             expedientes.c.id == decoded,
-            expedientes.c.dni == decoded))).fetchall()
+            expedientes.c.dni == decoded,
+            expedientes.c.apellido.ilike(f'%{decoded}%'),
+            expedientes.c.nombres.ilike(f'%{decoded}%'),
+            expedientes.c.empresas.ilike(f'%{decoded}%')))).fetchall()
 
     if(not result):
         return Response(status_code=status.HTTP_400_BAD_REQUEST)    # Le avisamos al usuario que lo que nos pasó no es correcto
